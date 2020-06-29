@@ -237,8 +237,8 @@ public class InfluxDBConnection {
 
 
     public static void main(String[] args) {
-        influxSelect();
-//        influxInsert();
+//        influxSelect();
+        influxInsert();
     }
 
     private static void influxSelect() {
@@ -268,23 +268,23 @@ public class InfluxDBConnection {
 
     private static void influxInsert() {
         InfluxDBConnection influxDBConnection = new InfluxDBConnection("admin", "admin",
-                "http://127.0.0.1:8086", "huodian", "");
-        for(int i=0; i<10000; i++) {
+                "http://127.0.0.1:8096", "huodian", "");
+        for(int i=0; i<1200; i++) {
             List<String> records = new ArrayList<String>();
             BatchPoints batchPoints1 = BatchPoints.database("huodian")
-                    .retentionPolicy("hour").consistency(InfluxDB.ConsistencyLevel.ALL).build();
+                    .retentionPolicy("two_year").consistency(InfluxDB.ConsistencyLevel.ALL).build();
             for (int j = 0; j < 100; j++) {
 
                 Map<String, String> tags1 = new HashMap<String, String>();
                 for (int z = 0; z < 1000; z++) {
 
-                    String kks = "4DCS.40CFB41GH" + z;
+                    String kks = "4DCS.40CFB41GHas" + z;
                     tags1.put("kks", kks);
                     Map<String, Object> fields1 = new HashMap<>(2);
                     fields1.put("value", z + 0.0);
                     fields1.put("status", 0);
                     // 一条记录值
-                    Point point1 = influxDBConnection.pointBuilder("sensor_history", 1519513600000L + j * 1000 + i*100000, tags1, fields1);
+                    Point point1 = influxDBConnection.pointBuilder("sensor_history", 1580092115000L + j * 1000 + i*100000, tags1, fields1);
                     batchPoints1.point(point1);
                 }
 
